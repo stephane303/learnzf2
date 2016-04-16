@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -10,22 +11,26 @@
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
-{
-	public function indexAction()
-	{
-        $serviceLocator = $this->getServiceLocator();
-        $config = $serviceLocator->get('config');
+
+class IndexController extends AbstractActionController {
+
+    private $config;
+
+    public function __construct($config) {
+        $this->config = $config;
+    }
+
+    public function indexAction() {
+
         return array(
-                    'version'=> $config['application']['version'], 
-                    'applicationName' => $config['application']['name']
-                );
-	}
-	
-	public function aboutAction()
-	{
-		return array();
-	}
+            'version' => $this->config['application']['version'],
+            'applicationName' => $this->config['application']['name']
+        );
+    }
+
+    public function aboutAction() {
+        return array();
+    }
+
 }

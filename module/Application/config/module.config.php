@@ -1,4 +1,7 @@
 <?php
+
+use Application\Controller\IndexController;
+use Zend\Mvc\Controller\ControllerManager;
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -72,9 +75,11 @@ return array(
         ),
     ),
     'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
-        ),
+         'factories' => array(
+            'Application\Controller\Index' =>  function( ControllerManager $sm){
+             return new IndexController($sm->getServiceLocator()->get('config'));
+    
+            })
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
