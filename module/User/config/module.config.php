@@ -1,4 +1,5 @@
 <?php
+
 return array(
     'router' => array(
         'routes' => array(
@@ -43,5 +44,15 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-    ),    
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'database' => 'User\Service\Factory\Database',
+        )
+    ),
+    'table-gateway' => array(
+        'map' => array(
+            'users' => 'User\Model\User',
+        )
+    )
 );

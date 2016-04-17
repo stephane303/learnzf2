@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterInterface;
 
 class UserForm extends Form {
 
-    protected $filter;
+    //protected $filter;
 
     public function __construct($name = 'user') {
         parent::__construct($name);
@@ -204,6 +204,27 @@ class UserForm extends Form {
                             )
                         )
             )));
+            $inputFilter->add($factory->createInput(array(
+                        'name' => 'password',
+                        'filters' => array(
+                            array(
+                                'name' => 'StripTags'
+                            ),
+                            array(
+                                'name' => 'StringTrim'
+                            )
+                        ),
+                        'validators' => array(
+                            array(
+                                'name' => 'NotEmpty',
+                                'options' => array(
+                                    'messages' => array(
+                                        'isEmpty' => 'Password is required'
+                                    )
+                                )
+                            )
+                        )
+            )));            
 
             //Verify the password is confirmed correctly
             //You might also want to add another password field in which the user is asked to repeat the

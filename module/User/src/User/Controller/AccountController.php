@@ -4,6 +4,7 @@ namespace User\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use User\Form\UserForm as UserForm;
+use User\Model\User as UserModel;
 
 class AccountController extends AbstractActionController {
 
@@ -12,6 +13,7 @@ class AccountController extends AbstractActionController {
     }
 
     public function addAction() {
+
         $form = new UserForm();
         if ($this->getRequest()->isPost()) {
             $data = array_merge_recursive(
@@ -21,12 +23,23 @@ class AccountController extends AbstractActionController {
             );
             $form->setData($data);
             if ($form->isValid()) {
-                // @todo: save the data of the new user
+                $model = new UserModel();
+                $id = $model->insert($form->getData());
             }
         }
 
         // pass the data to the view for visualization
         return array('form1' => $form);
+    }
+
+    public function deleteAction() {
+        $id = $this->getRequest()->getQuery()->get('id');
+        if ($id) {
+            $userModel = new UserModel();
+            $userModel->delete(array('id' => $id));
+        }
+
+        return array();
     }
 
     /*
@@ -45,8 +58,6 @@ class AccountController extends AbstractActionController {
         return array();
     }
 
-    public function deleteAction() {
-        return array();
-    }
+
 
 }
