@@ -250,8 +250,8 @@ class UserForm extends Form {
                             array(
                                 'name' => 'fileimagesize',
                                 'options' => array(
-                                    'maxWidth' => 200,
-                                    'maxHeight' => 200
+                                    'maxWidth' => 20000,
+                                    'maxHeight' => 20000
                                 )
                             ),
                         ),
