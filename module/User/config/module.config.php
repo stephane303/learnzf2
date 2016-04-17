@@ -1,27 +1,17 @@
 <?php
-
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/',
-                    'defaults' => array(
-                        'controller' => 'Debug\Controller\Index',
-                        'action' => 'index',
-                    ),
-                ),
-            ),
-            // Simply drop new controllers in, and you can access them
-            // using the path /debug/:controller/:action
-            'debug' => array(
+            'user' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route' => '/debug',
+                    // Change this to something specific to your module
+                    'route' => '/user',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Debug\Controller',
-                        'controller' => 'Index',
+                        // Change this value to reflect the namespace in which
+                        // the controllers for your module are found
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Account',
                         'action' => 'index',
                     ),
                 ),
@@ -43,22 +33,15 @@ return array(
             ),
         ),
     ),
-    'service_manager' => array(
-        'factories' => array(
-            'timer' => 'Debug\Factory\Timer'
-        )
-    ),
     'controllers' => array(
         'invokables' => array(
-            'Debug\Controller\Index' => 'Debug\Controller\IndexController'
-        ),
+            // below is key and below is the fully qualified class name
+            'User\Controller\Account' => 'User\Controller\AccountController',
+        )
     ),
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-    ),
-    'timer' => array(
-        'times_as_float' => false,
-    )
+    ),    
 );
