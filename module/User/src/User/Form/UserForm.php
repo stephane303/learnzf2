@@ -80,7 +80,7 @@ class UserForm extends Form {
                 'type' => 'tel',
                 'required' => 'required',
                 // Below: HTML5 way to specify the allowed characters
-                'pattern' => '^[\d-/]+$'
+                'pattern' => '^\d+$'
             ),
         ));
 
@@ -120,36 +120,6 @@ class UserForm extends Form {
         if (!$this->filter) {
             $inputFilter = new InputFilter ();
             $factory = new Factory ();
-
-            $inputFilter->add($factory->createInput(array(
-                        'name' => 'email',
-                        'filters' => array(
-                            array(
-                                'name' => 'StripTags'
-                            ),
-                            array(
-                                'name' => 'StringTrim'
-                            )
-                        ),
-                        'validators' => array(
-                            array(
-                                'name' => 'EmailAddress',
-                                'options' => array(
-                                    'messages' => array(
-                                        'emailAddressInvalidFormat' => 'Email address format is not invalid'
-                                    )
-                                )
-                            ),
-                            array(
-                                'name' => 'NotEmpty',
-                                'options' => array(
-                                    'messages' => array(
-                                        'isEmpty' => 'Email address is required'
-                                    )
-                                )
-                            )
-                        )
-            )));
 
             //Is the email address valid?
             $inputFilter->add($factory->createInput(array(
@@ -301,14 +271,14 @@ class UserForm extends Form {
                             array('name' => 'digits'),
                             array('name' => 'stringtrim'),
                         ),
-                        'validators' => array(
-                            array(
-                                'name' => 'regex',
-                                'options' => array(
-                                    'pattern' => '/^[\d-\/]+$/',
-                                )
-                            ),
-                        )
+//                        'validators' => array(
+//                            array(
+//                                'name' => 'regex',
+//                                'options' => array(
+//                                    'pattern' => '/^[\d-\/]+$/',
+//                                )
+//                            ),
+//                        )
             )));
             //...
             $this->filter = $inputFilter;

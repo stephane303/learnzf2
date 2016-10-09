@@ -9,10 +9,13 @@ use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
+use Zend\Log\Writer\FirePhp;
+use Zend\Log\Logger;
 
 class Module {
     
     private $logger;
+   
     
     public function getConfig() {
         return include __DIR__ . '/config/module.config.php';
@@ -49,10 +52,8 @@ class Module {
         
     }
 
-    public function startTimer(Event $event) {
+    public function startTimer(MvcEvent $event) {
         /* @var $target MvcEvent */
-
-        //$target =$event->getTarget();
 
         $sm = $event->getApplication()->getServiceManager();
         /* @var $timer Timer */
@@ -60,11 +61,12 @@ class Module {
         $timer->start('test');
     }
 
-    public function stopTimer(Event $event) {
+    public function stopTimer(MvcEvent $event) {
         $eventManager = $event->getApplication()->getEventManager();
         $sm = $event->getApplication()->getServiceManager();
         $timer = $sm->get('timer');
         $this->logger->info('Timer:'. $timer->stop('test'));
+        $this->logger->info($event->getApplication()->getServiceManager()->get('config'));
     }
 
     public function onBootstrap(MvcEvent $e) {
@@ -99,5 +101,20 @@ class Module {
 
          $event->setViewModel($sidebarView);        
     }
+    
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                // [..] other factories for other serivces left out
+                'logger' => function() {
+                    $writer = new FirePhp();
+                    $logger = new Logger();
+                    $logger->addWriter($writer);
+                    return $logger;
+                },
+            ),
+        );
+    }     
 
 }

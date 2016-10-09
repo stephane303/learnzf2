@@ -60,20 +60,6 @@ class Module
                             );
                 }));
     }
-    
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                // [..] other factories for other serivces left out
-                'logger' => function() {
-                    $writer = new FirePhp();
-                    $logger = new Logger();
-                    $logger->addWriter($writer);
-                    return $logger;
-                },
-            ),
-        );
-    }    
+       
    
 }
