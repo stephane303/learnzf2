@@ -11,7 +11,9 @@ use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
 class Module {
-
+    
+    private $logger;
+    
     public function getConfig() {
         return include __DIR__ . '/config/module.config.php';
     }
@@ -62,14 +64,17 @@ class Module {
         $eventManager = $event->getApplication()->getEventManager();
         $sm = $event->getApplication()->getServiceManager();
         $timer = $sm->get('timer');
-        echo $timer->stop('test') . '<br>';
+        $this->logger->info('Timer:'. $timer->stop('test'));
     }
 
     public function onBootstrap(MvcEvent $e) {
+        $this->logger =  $e->getApplication()->getServiceManager()->get('logger');
         $eventManager = $e->getApplication()->getEventManager();
         $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'handleError'));
 
         $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'addDebugOverlay'), 100);
+        $this->logger->info( 'Debug:'.count($e->getApplication()->getServiceManager()->get('config')));
+
     }
 
     public function handleError(MvcEvent $event) {

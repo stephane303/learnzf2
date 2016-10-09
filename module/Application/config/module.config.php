@@ -74,12 +74,17 @@ return array(
             ),
         ),
     ),
-    'controllers' => array(
-        'factories' => array(
-            'Application\Controller\Index' => function( ControllerManager $sm) {
-                return new IndexController($sm->getServiceLocator()->get('config'));
-            })
-    ),
+//    'controllers' => array(
+//        'factories' => array(
+//            'Application\Controller\Index' => function( ControllerManager $sm) {
+//                return new IndexController($sm->getServiceLocator()->get('config'));
+//            })
+//    ),
+//    'controllers' => array(
+//        'factories' => array(
+//            'Application\Controller\Index' => 'Application\Factory\IndexControllerFactory'))
+//           
+//    ,                    
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions' => true,

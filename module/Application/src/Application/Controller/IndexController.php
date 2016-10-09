@@ -16,9 +16,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 class IndexController extends AbstractActionController {
 
     private $config;
+    private $logger;
 
-    public function __construct($config) {
+    public function __construct($config, $logger) {
         $this->config = $config;
+        $this->logger = $logger;
     }
 
     public function indexAction() {
@@ -30,6 +32,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function aboutAction() {
+        $this->logger->info('test');
         return array();
     }
 

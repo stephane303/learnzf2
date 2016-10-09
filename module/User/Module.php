@@ -1,6 +1,8 @@
 <?php
 namespace User;
 
+use Zend\Mvc\MvcEvent;
+
 class Module
 {
     public function getConfig()
@@ -18,6 +20,7 @@ class Module
             ),
         );
     }
-    
-    
+    public function onBootstrap(MvcEvent $e) {
+        $e->getApplication()->getServiceManager()->get('logger')->info( 'User:'.count($e->getApplication()->getServiceManager()->get('config')));    
+    }
 }
