@@ -93,13 +93,16 @@ class Module {
     }
     
     public function addDebugOverlay(Event $event){
-        $viewModel = $event->getViewModel();
+         $viewModel = $event->getViewModel();
+         
+         if (!is_a($viewModel, 'Zend\View\Model\JsonModel')){
+         
+            $sidebarView = new ViewModel();
+            $sidebarView->setTemplate('debug/layout/sidebar');
+            $sidebarView->addChild($viewModel, 'content');
 
-         $sidebarView = new ViewModel();
-         $sidebarView->setTemplate('debug/layout/sidebar');
-         $sidebarView->addChild($viewModel, 'content');
-
-         $event->setViewModel($sidebarView);        
+            $event->setViewModel($sidebarView);  
+         }
     }
     
     public function getServiceConfig()

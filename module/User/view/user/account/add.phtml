@@ -28,3 +28,17 @@ foreach ($this->form1 as $element) {
 }
 echo '</fieldset>';
 echo $this->form()->closeTag();
+?>
+
+<script>
+<?php $this->headScript()->captureStart(); ?>
+var a = ThisIsJavaScript;
+<?php $this->headScript()->captureEnd(); ?>
+</script>
+
+
+<script>
+<?php $this->inlineScript()->captureStart(); ?>
+var a = ThisIsJavaScript;
+<?php $this->inlineScript()->captureEnd(); ?>
+</script>

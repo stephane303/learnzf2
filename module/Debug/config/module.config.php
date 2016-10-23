@@ -3,16 +3,6 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/',
-                    'defaults' => array(
-                        'controller' => 'Debug\Controller\Index',
-                        'action' => 'index',
-                    ),
-                ),
-            ),
             // Simply drop new controllers in, and you can access them
             // using the path /debug/:controller/:action
             'debug' => array(

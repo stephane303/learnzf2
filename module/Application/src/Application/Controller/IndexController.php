@@ -11,6 +11,7 @@
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 
 
 class IndexController extends AbstractActionController {
@@ -34,6 +35,19 @@ class IndexController extends AbstractActionController {
     public function aboutAction() {
         $this->logger->info('test');
         return array();
+    }
+    
+    public function infoAction() {
+        $array = [];
+        for($i=0;$i<20;$i++){
+            $array[]=[$i,20-$i];
+        }
+        $result = new JsonModel([
+            'todos' =>$array,
+            'success'=>true]
+        );
+ 
+        return $result;        
     }
 
 }
