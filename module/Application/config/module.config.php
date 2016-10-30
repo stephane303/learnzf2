@@ -60,20 +60,11 @@ return array(
         ),
     ),
     'service_manager' => array(
-        'factories' => array(
-            'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
-        ),
+        'aliases' => array(
+            'translator' => 'MvcTranslator',
+        ),        
     ),
-    'translator' => array(
-        'locale' => 'en_US',
-        'translation_file_patterns' => array(
-            array(
-                'type' => 'gettext',
-                'base_dir' => __DIR__ . '/../language',
-                'pattern' => '%s.mo',
-            ),
-        ),
-    ),
+
 //    'controllers' => array(
 //        'factories' => array(
 //            'Application\Controller\Index' => function( ControllerManager $sm) {
@@ -100,6 +91,23 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-        'strategies' => array ('ViewJsonStrategy')
+        'strategies' => array('ViewJsonStrategy')
     ),
+    'doctrine' => array(
+        'driver' => array(
+            'application_entities' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Application/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'Application\Entity' => 'application_entities'
+                )
+            )
+        )
+    ),
+    'translator' => array(
+        'locale' => 'fr'
+    )    
 );

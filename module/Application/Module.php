@@ -9,12 +9,13 @@
 
 namespace Application;
 
+use Application\Controller\IndexController;
+use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
+use Zend\I18n\Translator\Resources;
+use Zend\Mvc\Controller\ControllerManager;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Controller\ControllerManager;
-use Application\Controller\IndexController;
-use Zend\Log\Writer\FirePhp;
-use Zend\Log\Logger;
+use Zend\Validator\AbstractValidator;
 
 class Module
 {
@@ -27,9 +28,30 @@ class Module
         
         $services = $e->getApplication()->getServiceManager();
         $dbAdapter = $services->get('database');
-        \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($dbAdapter); 
+        GlobalAdapterFeature::setStaticAdapter($dbAdapter); 
         $e->getApplication()->getServiceManager()->get('logger')->info( 'Application:'.count($e->getApplication()->getServiceManager()->get('config')));
+        
+        $application    = $e->getApplication();
+        $serviceManager = $application->getServiceManager();
+        $translator     = $serviceManager->get('translator');
+        
+        $translator->addTranslationFilePattern(
+            'phpArray',
+            Resources::getBasePath(),
+            Resources::getPatternForValidator()
+        );
+
+        $translator->addTranslationFilePattern(
+               'phpArray',
+               __DIR__ . '/language',
+                'test.php'
+            );
+        
+        //AbstractValidator::setDefaultTranslator($translator);
+        AbstractValidator::setDefaultTranslator($translator); 
+               
     }
+                
 
     public function getConfig()
     {
@@ -54,9 +76,13 @@ class Module
                 //Suppose one of our routes specifies
                 //a controller named 'myController'
                 'Application\Controller\Index' => function( ControllerManager $sm) {
+                    
+                    $sl = $sm->getServiceLocator();
                     return new IndexController(
-                            $sm->getServiceLocator()->get('config'),
-                            $sm->getServiceLocator()->get('logger')
+                            $sl->get('config'),
+                            $sl->get('logger'),
+                            $sl->get('Doctrine\ORM\EntityManager'),
+                            $sl->get('timer')
                             );
                 }));
     }
