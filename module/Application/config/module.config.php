@@ -59,11 +59,7 @@ return array(
             ),
         ),
     ),
-    'service_manager' => array(
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
-        ),        
-    ),
+
 
 //    'controllers' => array(
 //        'factories' => array(

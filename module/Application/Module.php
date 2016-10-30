@@ -31,9 +31,8 @@ class Module
         GlobalAdapterFeature::setStaticAdapter($dbAdapter); 
         $e->getApplication()->getServiceManager()->get('logger')->info( 'Application:'.count($e->getApplication()->getServiceManager()->get('config')));
         
-        $application    = $e->getApplication();
-        $serviceManager = $application->getServiceManager();
-        $translator     = $serviceManager->get('translator');
+
+        $translator     = $services->get('MvcTranslator');
         
         $translator->addTranslationFilePattern(
             'phpArray',
@@ -44,7 +43,7 @@ class Module
         $translator->addTranslationFilePattern(
                'phpArray',
                __DIR__ . '/language',
-                'test.php'
+                '%s/test.php'
             );
         
         //AbstractValidator::setDefaultTranslator($translator);
