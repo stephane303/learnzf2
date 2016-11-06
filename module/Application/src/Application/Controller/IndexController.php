@@ -59,27 +59,31 @@ class IndexController extends AbstractActionController
     
     public function indexAction() {
         
+        // @var $rep EntityRepository */
+        $rep = $this->em->getRepository(User::class);
+        
+
         $user = new User();
         $user->setFullName('Stef');
         
         $this->em->persist($user);
         
-        $address = new Address;
-        $address->setCity('Lausanne');
-        
-        $this->em->persist($address);
-        $user->setAddress($address);
-        
-        $project1 = new Project;
-        $project1->setName('Project1');
-        $this->em->persist($project1);
-        
-        $project2 = new Project;
-        $project2->setName('Project2');
-        $this->em->persist($project2);
-        
-        $user->getProjects()->add($project1);        
-        $user->getProjects()->add($project2);
+//        $address = new Address;
+//        $address->setCity('Lausanne');
+//        
+//        $this->em->persist($address);
+//        $user->setAddress($address);
+//        
+//        $project1 = new Project;
+//        $project1->setName('Project1');
+//        $this->em->persist($project1);
+//        
+//        $project2 = new Project;
+//        $project2->setName('Project2');
+//        $this->em->persist($project2);
+//        
+//        $user->getProjects()->add($project1);        
+//        $user->getProjects()->add($project2);
         
         
         
@@ -131,5 +135,27 @@ class IndexController extends AbstractActionController
  
         return $result;        
     }
+    
+    public function usersAction() {
+        /**
+         *  @var $rep EntityRepository 
+         */
+        
+        $rep = $this->em->getRepository(User::class);
+        $users = $rep->findAll();
+
+
+        return new JsonModel([
+            'users' => array_map(
+                    function ($user) {
+                        $adresse = $user->getAddress();
+                        /* @var $user \User */
+                        return ['name' => $user->getFullName(),
+                                'city' => $adresse?$adresse->getCity():'no city'];
+                    }, $users
+            ),
+            'success' => true
+        ]);
+    }    
 
 }

@@ -62,10 +62,11 @@ var app7 = new Vue({
   },
   methods : {
     init: function(){
-              $.get('http://localhost/learnzf2/public/application/index/info',
+              $.get('http://localhost/learnzf2/public/application/index/users',
               function(data){
-                  data.todos.forEach(function(entry){
-                      app7.todos.push({text:entry[1]});
+                  data.users.forEach(function(user){
+                      
+                      app7.todos.push({text:user['name']});
                   });
                   app.message= data.some_parameter;
               });
